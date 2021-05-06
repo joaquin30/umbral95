@@ -9,6 +9,7 @@ Game::Game()
     renderer = SDL_CreateRenderer(window, -1,
                                   SDL_RENDERER_ACCELERATED |
                                   SDL_RENDERER_PRESENTVSYNC);
+    SDL_GetWindowSize(window, &width, &height);
 }
 
 Game::~Game()
@@ -25,6 +26,15 @@ int Game::loop()
             switch (event.type) {
             case SDL_QUIT:
                 return 0;
+
+            case SDL_KEYDOWN:
+                if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+                    return 0;
+
+                break;
+
+            default:
+                break;
             }
         }
     }
