@@ -1,16 +1,17 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <SDL2/SDL.h>
+#include <memory>
 #include <iostream>
+#include <SDL2/SDL.h>
+#include "scene.hpp"
 
 class Game {
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Event event;
-    int width;
-    int height;
-    void manage_events();
+    std::unique_ptr<Scene> scene;
+    bool manage_events();
     void draw();
 
 public:

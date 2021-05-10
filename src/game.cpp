@@ -4,12 +4,14 @@ Game::Game()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow("Umbral del 95%",
-                              0, 0, 0, 0,
+                              SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_UNDEFINED,
+                              0, 0,
                               SDL_WINDOW_FULLSCREEN_DESKTOP);
     renderer = SDL_CreateRenderer(window, -1,
                                   SDL_RENDERER_ACCELERATED |
                                   SDL_RENDERER_PRESENTVSYNC);
-    SDL_GetWindowSize(window, &width, &height);
+    SDL_RenderSetLogicalSize(renderer, 320, 180);
 }
 
 Game::~Game()
@@ -22,20 +24,22 @@ Game::~Game()
 int Game::loop()
 {
     while (true) {
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-            case SDL_QUIT:
-                return 0;
+        switch (scene->manage_events(event)) {
+        case state::home:
+            break;
 
-            case SDL_KEYDOWN:
-                if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-                    return 0;
+        case state::instructions:
+            break;
 
-                break;
+        case state::game:
+            break;
 
-            default:
-                break;
-            }
+        default:
+            return 0;
         }
+
+        SDL_RenderClear(renderer);
+        scene->draw(renderer);
+        SDL_RenderPresent(renderer);
     }
 }
