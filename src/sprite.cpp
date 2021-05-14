@@ -1,6 +1,6 @@
 #include "sprite.hpp"
 
-Sprite::Sprite(SDL_Renderer *rend, SDL_Rect &r, const char *img)
+Sprite::Sprite(SDL_Renderer *rend, SDL_Rect r, const char *img)
 {
     texture = IMG_LoadTexture(rend, img);
     rect = r;

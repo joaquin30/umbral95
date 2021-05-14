@@ -1,34 +1,16 @@
 #include "scene.hpp"
 
-Scene::Scene(SDL_Renderer *rend, state n, const char *bg)
+Scene::Scene(SDL_Renderer *rend)
 {
-    sprites.push_back(std::make_unique<Sprite>(320, 180, rend, bg));
-    name = n;
-}
-
-state Scene::manage_events(SDL_Event &event)
-{
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        case SDL_QUIT:
-            return state::exit;
-
-        /*case SDL_KEYDOWN:
-            if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-                return state::exit;
-
-            break;*/
-
-        default:
-            break;
-        }
-    }
-
-    return name;
+    SDL_Rect r;
+    r.x = r.y = 0;
+    r.w = 320;
+    r.h = 180;
+    sprites.push_back(std::unique_ptr<Sprite>(new Sprite(rend, r, bg)));
 }
 
 void Scene::draw(SDL_Renderer *rend)
 {
-    for (auto&& it : sprites)
+    for (auto &&it : sprites)
         it->draw(rend);
 }

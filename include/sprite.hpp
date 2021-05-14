@@ -12,7 +12,7 @@ class Sprite {
 
 public:
     SDL_Rect rect;
-    Sprite(SDL_Renderer*, SDL_Rect&, const char*);
+    Sprite(SDL_Renderer*, SDL_Rect, const char*);
     ~Sprite();
     void draw(SDL_Renderer*);
 };

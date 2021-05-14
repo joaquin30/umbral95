@@ -12,6 +12,7 @@ Game::Game()
                                   SDL_RENDERER_ACCELERATED |
                                   SDL_RENDERER_PRESENTVSYNC);
     SDL_RenderSetLogicalSize(renderer, 320, 180);
+    scene = std::make_unique<Home>(renderer);
 }
 
 Game::~Game()
@@ -24,18 +25,21 @@ Game::~Game()
 int Game::loop()
 {
     while (true) {
-        switch (scene->manage_events(event)) {
-        case state::home:
-            break;
+        auto tmp = scene->manage_events(event);
+        if (tmp != scene->name) {
+            switch (tmp) {
+            case state::home:
+                break;
 
-        case state::instructions:
-            break;
+            case state::instructions:
+                break;
 
-        case state::game:
-            break;
+            case state::game:
+                break;
 
-        default:
-            return 0;
+            default:
+                return 0;
+            }
         }
 
         SDL_RenderClear(renderer);

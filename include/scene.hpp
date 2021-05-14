@@ -9,13 +9,14 @@
 #include "utils.hpp"
 
 class Scene {
-    state name;
+    const char *bg {"/home/j30/Documentos/Proyectos/umbral95/assets/img/home.jpg"};
     std::vector<std::unique_ptr<Sprite>> sprites;
 
 public:
-    Scene(SDL_Renderer*, state, const char*);
-    virtual state manage_events(SDL_Event &event);
+    state name;
+    Scene(SDL_Renderer*);
     void draw(SDL_Renderer*);
+    virtual state manage_events(SDL_Event) = 0;
 };
 
 #endif

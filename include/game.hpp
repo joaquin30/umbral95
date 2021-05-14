@@ -5,14 +5,13 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "scene.hpp"
+#include "entities.hpp"
 
 class Game {
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Event event;
     std::unique_ptr<Scene> scene;
-    bool manage_events();
-    void draw();
 
 public:
     Game();
