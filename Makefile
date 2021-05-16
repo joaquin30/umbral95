@@ -12,6 +12,7 @@ all: build/$(BIN)
 
 build/$(BIN): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LIBS)
+	cp -Ru assets build
 
 build/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)

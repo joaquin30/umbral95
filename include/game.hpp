@@ -2,10 +2,12 @@
 #define GAME_HPP
 
 #include <memory>
-#include <iostream>
 #include <SDL2/SDL.h>
-#include "scene.hpp"
-#include "entities.hpp"
+#include <SDL2/SDL_ttf.h>
+#include "home.hpp"
+#include "instructions.hpp"
+#include "game_room.hpp"
+
 
 class Game {
     SDL_Window *window;
