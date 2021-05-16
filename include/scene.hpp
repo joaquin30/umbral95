@@ -6,6 +6,9 @@
 #include <SDL2/SDL.h>
 #include "sprite.hpp"
 
+extern SDL_Color white;
+extern SDL_Color gray;
+
 enum class state {
     home,
     instructions,

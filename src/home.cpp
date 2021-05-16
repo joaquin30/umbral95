@@ -6,24 +6,24 @@ Home::Home(SDL_Renderer *rend)
     sprites[0]->load_img(rend, "assets/img/home.jpg");
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{40, 20, 0, 0}));
-    sprites[1]->load_text(rend, "EL UMBRAL", SDL_Color{255, 255, 255, 255}, 36);
+    sprites[1]->load_text(rend, "EL UMBRAL", white, 36);
     sprites[1]->rect.x = (320 - sprites[1]->rect.w)/2;
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{80, 50, 0, 0}));
-    sprites[2]->load_text(rend, "DEL 95%", SDL_Color{255, 255, 255, 255}, 36);
+    sprites[2]->load_text(rend, "DEL 95%", white, 36);
     sprites[2]->rect.x = (320 - sprites[2]->rect.w)/2;
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{125, 115, 0, 0}));
-    sprites[3]->load_text(rend, "Enter", SDL_Color{220, 220, 220, 255}, 12);
+    sprites[3]->load_text(rend, "Enter", gray, 12);
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{165, 115, 0, 0}));
-    sprites[4]->load_text(rend, "Jugar", SDL_Color{255, 255, 255, 255}, 12);
+    sprites[4]->load_text(rend, "Jugar", white, 12);
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{125, 128, 0, 0}));
-    sprites[5]->load_text(rend, "Escape", SDL_Color{220, 220, 220, 255}, 12);
+    sprites[5]->load_text(rend, "Escape", gray, 12);
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{165, 128, 0, 0}));
-    sprites[6]->load_text(rend, "Salir", SDL_Color{255, 255, 255, 255}, 12);
+    sprites[6]->load_text(rend, "Salir", white, 12);
 
 }
 
