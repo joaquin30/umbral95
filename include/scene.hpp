@@ -17,11 +17,15 @@ enum class state {
 };
 
 class Scene {
+    int ticks{0};
+
 protected:
     std::vector<std::unique_ptr<Sprite>> sprites;
 
 public:
     state name;
+    Scene(state);
+    virtual ~Scene() = default;
     void draw(SDL_Renderer*);
     virtual state manage_events(SDL_Event) = 0;
 };

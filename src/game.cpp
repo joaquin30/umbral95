@@ -11,7 +11,7 @@ Game::Game()
     renderer = SDL_CreateRenderer(window, -1,
                                   SDL_RENDERER_ACCELERATED |
                                   SDL_RENDERER_PRESENTVSYNC);
-    SDL_RenderSetLogicalSize(renderer, 320, 180);
+    SDL_RenderSetLogicalSize(renderer, 1920, 1080);
     TTF_Init();
     scene = std::make_unique<Home>(renderer);
 }
@@ -27,7 +27,7 @@ Game::~Game()
 int Game::loop()
 {
     while (true) {
-        auto tmp {scene->manage_events(event)};
+        auto tmp{scene->manage_events(event)};
         if (tmp != scene->name) {
             switch (tmp) {
             case state::home:

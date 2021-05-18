@@ -1,6 +1,6 @@
 #include "game_room.hpp"
 
-GameRoom::GameRoom(SDL_Renderer *rend)
+GameRoom::GameRoom(SDL_Renderer *rend) : Scene{state::game_room}
 {
 
 }
@@ -36,9 +36,8 @@ state GameRoom::manage_events(SDL_Event event)
 
 bool GameRoom::probability(int n)
 {
-    std::random_device tmp;
-    std::mt19937 rd(tmp());
-    std::uniform_int_distribution<> uid(0, 99);
+    std::mt19937 rd{std::random_device{}()};
+    std::uniform_int_distribution<> uid{0, 99};
     if (uid(rd) < n)
         return false;
 
