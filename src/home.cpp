@@ -7,23 +7,23 @@ Home::Home(SDL_Renderer *rend) : Scene{state::home}
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{240, 120, 0, 0}));
     sprites[1]->load_text(rend, "EL UMBRAL", white, 180);
-    sprites[1]->rect.x = (1920 - sprites[1]->rect.w)/2;
+    sprites[1]->center_x();
 
     sprites.push_back(std::make_unique<Sprite>(SDL_Rect{480, 300, 0, 0}));
     sprites[2]->load_text(rend, "DEL 95%", white, 180);
-    sprites[2]->rect.x = (1920 - sprites[2]->rect.w)/2;
+    sprites[2]->center_x();
 
-    sprites.push_back(std::make_unique<Sprite>(SDL_Rect{750, 690, 0, 0}));
-    sprites[3]->load_text(rend, "Enter", gray, 60);
+    sprites.push_back(std::make_unique<Sprite>(SDL_Rect{0, 650, 0, 0}));
+    sprites[3]->load_text(rend, "Pulsa Enter para empezar", white, 60);
+    sprites[3]->center_x();
 
-    sprites.push_back(std::make_unique<Sprite>(SDL_Rect{990, 690, 0, 0}));
-    sprites[4]->load_text(rend, "Jugar", white, 60);
+    sprites.push_back(std::make_unique<Sprite>(SDL_Rect{0, 750, 0, 0}));
+    sprites[4]->load_text(rend, "Pulsa Escape para salir", gray, 50);
+    sprites[4]->center_x();
 
-    sprites.push_back(std::make_unique<Sprite>(SDL_Rect{750, 768, 0, 0}));
-    sprites[5]->load_text(rend, "Escape", gray, 60);
-
-    sprites.push_back(std::make_unique<Sprite>(SDL_Rect{990, 768, 0, 0}));
-    sprites[6]->load_text(rend, "Salir", white, 60);
+    sprites.push_back(std::make_unique<Sprite>(SDL_Rect{0, 850, 0, 0}));
+    sprites[5]->load_text(rend, "Pulsa C para ver los créditos", gray, 40);
+    sprites[5]->center_x();
 }
 
 state Home::manage_events(SDL_Event event)
@@ -54,3 +54,9 @@ state Home::manage_events(SDL_Event event)
 
     return name;
 }
+
+/*
+set_animation(SDL_Rect src, SDL_Rect dest, chrono::miliseconds msec, bool loop = false) {
+
+}
+*/
