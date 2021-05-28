@@ -1,7 +1,13 @@
-#include <game.hpp>
+#include "game.hpp"
 
-int main()
-{
-	Game umbral95;
-	return umbral95.loop();
+int main() {
+    int exit_code;
+    try {
+        Game umbral95;
+        exit_code = umbral95.loop();
+    } catch (...) {
+        throw;
+    }
+
+    return exit_code;
 }

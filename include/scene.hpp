@@ -2,32 +2,23 @@
 #define SCENE_HPP
 
 #include <vector>
-#include <memory>
-#include <SDL2/SDL.h>
-#include "sprite.hpp"
-
-extern SDL_Color white;
-extern SDL_Color gray;
+#include "terminal/terminal_renderer.hpp"
 
 enum class state {
-    home,
+    start,
+    credits,
     instructions,
-    game_room,
-    exit
+    game,
+    none, //para quedarse en la escena y no hacer nada
+    exit //para salir del juego
 };
 
 class Scene {
-    int ticks{0};
-
-protected:
-    std::vector<std::unique_ptr<Sprite>> sprites;
-
 public:
-    state name;
-    Scene(state);
-    virtual ~Scene() = default;
-    void draw(SDL_Renderer*);
-    virtual state manage_events(SDL_Event) = 0;
+    std::vector<Term::Sprite> sprites;
+    std::vector<Term::Label> labels;
+    Scene() = default;
+    virtual state manage_events(int, float) = 0;
 };
 
-#endif
+#endif //SCENE_HPP

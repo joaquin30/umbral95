@@ -1,54 +1,54 @@
-#include <game.hpp>
+#include "game.hpp"
 
-Game::Game()
+Game::Game() : rend{true, false}
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-    window = SDL_CreateWindow("Umbral del 95%",
-                              SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED,
-                              0, 0,
-                              SDL_WINDOW_FULLSCREEN_DESKTOP);
-    renderer = SDL_CreateRenderer(window, -1,
-                                  SDL_RENDERER_ACCELERATED |
-                                  SDL_RENDERER_PRESENTVSYNC);
-    SDL_RenderSetLogicalSize(renderer, 1920, 1080);
-    TTF_Init();
-    scene = std::make_unique<Home>(renderer);
-}
-
-Game::~Game()
-{
-    TTF_Quit();
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    before = std::chrono::system_clock::now();
+    rend.save_screen();
+    rend.get_term_size(SCREEN_HEIGHT, SCREEN_WIDTH);
+    scene = std::make_unique<StartScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
+    after = std::chrono::system_clock::now();
+    time_elapsed = after - before;
 }
 
 int Game::loop()
 {
+    using namespace std::chrono_literals;
     while (true) {
-        auto tmp{scene->manage_events(event)};
-        if (tmp != scene->name) {
-            switch (tmp) {
-            case state::home:
-                scene = std::make_unique<Home>(renderer);
-                break;
+        before = std::chrono::system_clock::now();
+        std::this_thread::sleep_for(20ms);
+        s = scene->manage_events(rend.read_key0(), time_elapsed.count());
+        switch (s) {
+        case state::none:
+            break;
 
-            case state::instructions:
-                scene = std::make_unique<Instructions>(renderer);
-                break;
+        case state::start:
+            scene = std::make_unique<StartScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
+            break;
 
-            case state::game_room:
-                scene = std::make_unique<GameRoom>(renderer);
-                break;
+        /*case state::credits:
+            scene = std::make_unique<CreditsScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
+            break;
 
-            default:
-                return 0;
-            }
+        case state::instructions:
+            scene = std::make_unique<InstructionsScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
+            break;
+
+        case state::game:
+            scene = std::make_unique<GameScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
+            break;*/
+
+        default:
+            return 0;
         }
 
-        SDL_RenderClear(renderer);
-        scene->draw(renderer);
-        SDL_RenderPresent(renderer);
+        for (auto &i : scene->sprites)
+            rend.draw_sprite(i);
+
+        for (auto &i : scene->labels)
+            rend.draw_label(i);
+
+        rend.render();
+        after = std::chrono::system_clock::now();
+        time_elapsed = after - before;
     }
 }
