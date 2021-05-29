@@ -2,7 +2,7 @@
 #define SCENE_HPP
 
 #include <vector>
-#include "terminal/terminal_renderer.hpp"
+#include "cpp-terminal/terminal_renderer.hpp"
 
 enum class state {
     start,

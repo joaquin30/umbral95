@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game() : rend{true, false}
+Game::Game()
 {
     before = std::chrono::system_clock::now();
     rend.save_screen();

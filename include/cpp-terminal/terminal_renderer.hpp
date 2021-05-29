@@ -2,11 +2,7 @@
 #define TERMINAL_RENDERER_HPP
 
 #include <cmath>
-#include <iostream>
 #include <utility>
-#include <vector>
-#include <string>
-#include <string_view>
 #include "terminal.hpp"
 
 namespace Term {
@@ -22,8 +18,9 @@ struct Sprite {
 };
 
 struct Label {
-    float x, y;
-    std::string_view str;
+    float x, y; //esquina sup izq
+    float dx, dy; //velocidad
+    std::string str;
 };
 
 class TerminalRenderer : public Terminal {
@@ -39,7 +36,6 @@ public:
         get_term_size(SCREEN_HEIGHT, SCREEN_WIDTH);
         buffer[0] = buffer[1] = std::string(SCREEN_WIDTH * SCREEN_HEIGHT, ' ');
         std::cout << Term::cursor_off();
-        clear_screen_buffer();
     }
 
     ~TerminalRenderer() override
@@ -54,7 +50,7 @@ public:
         int x = p.first, y = p.second;
         //coordenas forma de dona
         if (x < 0)
-            x = SCREEN_WIDTH -1;
+            x = SCREEN_WIDTH - 1;
         else if (x >= SCREEN_WIDTH)
             x %= SCREEN_WIDTH;
 
@@ -144,18 +140,18 @@ public:
 
     void draw_sprite(const Sprite &sprite)
     {
-        auto vp = sprite.points;
-        int len = vp.size();
-        //traslacion
-        for (int i = 0; i < len; ++i) {
-            vp[i].first += sprite.x;
-            vp[i].second += sprite.y;
+        auto pnts = sprite.points;
+        //float sn = sinf(sprite.angle), csn = cosf(sprite.angle);
+        for (auto& [x, y] : pnts) {
+            x += sprite.x;
+            y += sprite.y;
+
+            //revisar rotacion
+            //x = sprite.x * csn - sprite.y * sn;
+            //y = sprite.x * sn + sprite.y * csn;
         }
 
-        //rotacion
-
-        //dibujar lineas
-        draw_poligon(vp, sprite.c);
+        draw_poligon(pnts, sprite.c);
     }
 
     void draw_label(const Label& label)
@@ -178,7 +174,7 @@ public:
             for (int j = 0; j < SCREEN_WIDTH; ++j) {
                 auto pos = i * SCREEN_WIDTH + j;
                 if (buffer[0][pos] != buffer[1][pos]) {
-                    std::cout << Term::move_cursor(i, j);
+                    std::cout << Term::move_cursor(i + 1, j + 1);
                     std::cout << buffer[1][pos];
                 }
             }
