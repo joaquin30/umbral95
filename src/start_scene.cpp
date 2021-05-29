@@ -2,17 +2,17 @@
 
 StartScene::StartScene(int w, int h) : SCREEN_WIDTH{w}, SCREEN_HEIGHT{h}
 {
-    sprites.push_back(Term::Sprite{(float)SCREEN_WIDTH / 2,
-                                   (float)SCREEN_HEIGHT / 2,
+    sprites.push_back(Term::Sprite{(float) SCREEN_WIDTH/2.f,
+                                   (float) SCREEN_HEIGHT/2.f,
                                    0, 0, 0, '#',
-                                   {{0, -2}, {-1, 1}, {1, 1}}});
+                                   {{0, -2}, {-3, 1}, {3, 1}}});
     labels.push_back(Term::Label{0, 0, 0, 0, "hola\nque haces"});
 }
 
 state StartScene::manage_events(int key, float time_elapsed)
 {
-    sprites[0].dx = sinf(sprites[0].angle) * 30.f;
-	sprites[0].dy = -cosf(sprites[0].angle) * 20.f;
+    sprites[0].dx = 20.f * sinf(sprites[0].angle);
+	sprites[0].dy = 20.f * -cosf(sprites[0].angle);
     switch (key) {
     case 0:
         break;
@@ -42,5 +42,8 @@ state StartScene::manage_events(int key, float time_elapsed)
         break;
     }
 
+    labels[0].str = "(" + std::to_string((int)sprites[0].x) + ", " +
+                    std::to_string((int)sprites[0].y) + ", " +
+                    std::to_string((int)sprites[0].angle) + ")";
     return state::none;
 }

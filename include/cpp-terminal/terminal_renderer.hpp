@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <utility>
+#include <fstream>
 #include "terminal.hpp"
 
 namespace Term {
@@ -26,6 +27,7 @@ struct Label {
 class TerminalRenderer : public Terminal {
     int SCREEN_WIDTH, SCREEN_HEIGHT;
     std::string buffer[2];
+    //std::ofstream file{"log.txt"};
 
 public:
     explicit TerminalRenderer(bool enable_keyboard = false,
@@ -49,7 +51,7 @@ public:
     {
         int x = p.first, y = p.second;
         //coordenas forma de dona
-        if (x < 0)
+        /*if (x < 0)
             x = SCREEN_WIDTH - 1;
         else if (x >= SCREEN_WIDTH)
             x %= SCREEN_WIDTH;
@@ -57,11 +59,11 @@ public:
         if (y < 0)
             y = SCREEN_HEIGHT - 1;
         else if (y >= SCREEN_HEIGHT)
-            y %= SCREEN_HEIGHT;
+            y %= SCREEN_HEIGHT;*/
 
         //coordenas forma de plano
-        //if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
-        buffer[1][y * SCREEN_WIDTH + x] = c;
+        if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
+            buffer[1][y * SCREEN_WIDTH + x] = c;
     }
 
     void draw_line(point p1, point p2, char c = '#')
@@ -134,21 +136,25 @@ public:
 
     void draw_poligon(const std::vector<point> &points, char c = '#')
     {
-        for (int i = 0, len = points.size(); i < len; i++)
-            draw_line(points[i], points[(i+1) % len], c);
+        for (int i = 0, len = points.size(); i < len +1; i++)
+            draw_line(points[i % len], points[(i+1) % len], c);
     }
 
     void draw_sprite(const Sprite &sprite)
     {
-        auto pnts = sprite.points;
-        //float sn = sinf(sprite.angle), csn = cosf(sprite.angle);
+        int len = sprite.points.size();
+        std::vector<Term::point> pnts(len);
+        float seno = sinf(sprite.angle), coseno = cosf(sprite.angle);
+        //rotacion
+        for (int i = 0; i < len; ++i) {
+            pnts[i].first = sprite.points[i].first * coseno - sprite.points[i].second * seno;
+            pnts[i].second = sprite.points[i].first * seno + sprite.points[i].second * coseno;
+        }
+
+        //traslacion
         for (auto& [x, y] : pnts) {
             x += sprite.x;
             y += sprite.y;
-
-            //revisar rotacion
-            //x = sprite.x * csn - sprite.y * sn;
-            //y = sprite.x * sn + sprite.y * csn;
         }
 
         draw_poligon(pnts, sprite.c);
