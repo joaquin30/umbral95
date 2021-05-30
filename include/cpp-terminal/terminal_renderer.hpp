@@ -49,7 +49,11 @@ public:
 
     void draw_pixel(point p, char c = '#')
     {
-        int x = p.first, y = p.second;
+        int x = std::lroundf(p.first), y = std::lroundf(p.second);
+        //coordenas forma de plano
+        if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
+            buffer[1][y * SCREEN_WIDTH + x] = c;
+
         //coordenas forma de dona
         /*if (x < 0)
             x = SCREEN_WIDTH - 1;
@@ -59,17 +63,15 @@ public:
         if (y < 0)
             y = SCREEN_HEIGHT - 1;
         else if (y >= SCREEN_HEIGHT)
-            y %= SCREEN_HEIGHT;*/
+            y %= SCREEN_HEIGHT;
 
-        //coordenas forma de plano
-        if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
-            buffer[1][y * SCREEN_WIDTH + x] = c;
+        buffer[1][y * SCREEN_WIDTH + x] = c;*/
     }
 
     void draw_line(point p1, point p2, char c = '#')
     {
-        //mejorar y acortar
-        int x1 = p1.first, x2 = p2.first, y1 = p1.second, y2 = p2.second;
+        int x1 = std::lroundf(p1.first), x2 = std::lroundf(p2.first);
+        int y1 = std::lroundf(p1.second), y2 = std::lroundf(p2.second);
         int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
         dx = x2 - x1;
         dy = y2 - y1;
@@ -132,12 +134,36 @@ public:
                 draw_pixel({x, y}, c);
             }
         }
+        /* 1era versión
+        int min_x = std::min(x1, x2);
+        int max_x = std::max(x1, x2);
+        int min_y = std::min(y1, y2);
+        int max_y = std::max(y1, y2);
+        bool izqder = (x1 == min_x && y1 == min_y) ||
+                      (x2 == min_x && y2 == min_y);
+        if (min_x == max_x) {
+            for (int y = min_y; y <= max_y; ++y)
+                draw_pixel({min_x, y}, c);
+        } else if (min_y == max_y) {
+            for (int x = min_x; x <= max_x; ++x)
+                draw_pixel({x, min_y}, c);
+        } else if (max_x - min_x < max_y - min_y) {
+            for (int y = min_y; y <= max_y; ++y) {
+                int x = min_x + (max_x - min_x) * (y - min_y) / (max_y - min_y);
+                draw_pixel({x, (izqder ? y : max_y + min_y - y)}, c);
+            }
+        } else {
+            for (int x = min_x; x <= max_x; ++x) {
+                int y = min_y + (max_y - min_y) * (x - min_x) / (max_x - min_x);
+                draw_pixel({(izqder ? x : max_x + min_x - x), y}, c);
+            }
+        }*/
     }
 
     void draw_poligon(const std::vector<point> &points, char c = '#')
     {
-        for (int i = 0, len = points.size(); i < len +1; i++)
-            draw_line(points[i % len], points[(i+1) % len], c);
+        for (int i = 0, len = points.size(); i < len; i++)
+            draw_line(points[i], points[(i+1 == len ? 0 : i+1)], c);
     }
 
     void draw_sprite(const Sprite &sprite)
@@ -147,8 +173,10 @@ public:
         float seno = sinf(sprite.angle), coseno = cosf(sprite.angle);
         //rotacion
         for (int i = 0; i < len; ++i) {
-            pnts[i].first = sprite.points[i].first * coseno - sprite.points[i].second * seno;
-            pnts[i].second = sprite.points[i].first * seno + sprite.points[i].second * coseno;
+            pnts[i].first = sprite.points[i].first * coseno -
+                            sprite.points[i].second * seno;
+            pnts[i].second = sprite.points[i].first * seno +
+                             sprite.points[i].second * coseno;
         }
 
         //traslacion

@@ -1,7 +1,7 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include <vector>
+#include <algorithm>
 #include "cpp-terminal/terminal_renderer.hpp"
 
 enum class state {
