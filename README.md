@@ -4,7 +4,7 @@ Videojuego simple programado en C++17, inspirado en [*The 95% Threshold*](https:
 
 Proyecto de fin del segundo semestre de la Universidad Católica San Pablo, carrera de ciencia de la computación.
 
-# Prototipo
+## Prototipo
 
 [![prototipo](https://asciinema.org/a/zemqnk0hZr2l8aqNyblpfneDe.svg)](https://asciinema.org/a/zemqnk0hZr2l8aqNyblpfneDe)
 
