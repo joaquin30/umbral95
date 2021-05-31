@@ -33,14 +33,14 @@ state StartScene::manage_events(int key, float)
         break;
 
     case Term::Key::ENTER:
-        return state::instructions;
+        return state::game;
 
     case Term::Key::ESC:
         return state::exit;
 
     case 'c':
     case 'C':
-        return state::credits;
+        return state::none;
 
     default:
         break;

@@ -4,7 +4,7 @@
 #include "scene.hpp"
 
 struct CreditsScene : public Scene {
-    CreditsScene();
+    CreditsScene(int, int);
     state manage_events(int, float) override;
 };
 

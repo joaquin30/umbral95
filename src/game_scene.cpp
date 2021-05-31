@@ -1,6 +1,6 @@
-#include "start_scene.hpp"
+#include "game_scene.hpp"
 
-StartScene::StartScene(int w, int h) : Scene{w, h}
+GameScene::GameScene(int w, int h) : Scene{w, h}
 {
     sprites.push_back(Sprite{(float)SCREEN_WIDTH/2.f,
                              (float)SCREEN_HEIGHT/2.f,
@@ -9,7 +9,7 @@ StartScene::StartScene(int w, int h) : Scene{w, h}
 }
 
 
-state StartScene::manage_events(int key, float time_elapsed)
+state GameScene::manage_events(int key, float time_elapsed)
 {
     sprites[0].dx = 20.f * sinf(sprites[0].angle);
 	sprites[0].dy = 20.f * -cosf(sprites[0].angle);
