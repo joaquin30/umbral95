@@ -3,7 +3,7 @@ BIN = umbral95
 SRCS = $(shell find src -name *.cpp)
 OBJS = $(SRCS:%=build/%.o)
 DEPS = $(OBJS:.o=.d)
-CFLAGS = -Iinclude -MMD -MP -O3 -std=c++20 -Wall -Wextra -pedantic
+CFLAGS = -Iinclude -MMD -MP -O3 -std=c++17 -Wall -Wextra -pedantic
 LIBS = -lm
 
 .PHONY: clean all run

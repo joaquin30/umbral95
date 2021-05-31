@@ -6,4 +6,4 @@ Proyecto de fin del segundo semestre de la Universidad Católica San Pablo, carr
 
 ## Nota
 
-Los archivos del directorio `include/terminal` pueden ser usados como una librería, ya que `terminal.hpp` y `terminal_base.hpp` son cabeceras del proyecto <https://github.com/jupyter-xeus/cpp-terminal>, mientras que `terminal_renderer.hpp` es una cabecera propia.
+Los archivos del directorio `include/cpp-terminal` son cabeceras del proyecto <https://github.com/jupyter-xeus/cpp-terminal>, mientras que `renderer.hpp` y `renderer.cpp` forman una pequeña librería que puede ser usada fuera del proyecto, ya que solo depende de la anterior librería.
