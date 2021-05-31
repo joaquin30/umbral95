@@ -1,5 +1,5 @@
-#ifndef TERMINAL_HPP
-#define TERMINAL_HPP
+#ifndef TERMINAL_H
+#define TERMINAL_H
 
 /* This file is all platform independent, it contains the logic to build
  * the features that users need in a terminal application.
@@ -12,7 +12,7 @@
  * https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences
  */
 
-#include "terminal_base.hpp"
+#include <cpp-terminal/terminal_base.h>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -187,7 +187,7 @@ class Terminal : public BaseTerminal {
         : BaseTerminal(enable_keyboard, disable_ctrl_c),
           restore_screen_{false} {}
 
-    virtual ~Terminal() override { restore_screen(); }
+    ~Terminal() override { restore_screen(); }
 
     void restore_screen() {
         if (restore_screen_) {
@@ -1408,4 +1408,4 @@ inline std::string prompt(const Terminal& term,
 
 }  // namespace Term
 
-#endif  // TERMINAL_HPP
+#endif  // TERMINAL_H

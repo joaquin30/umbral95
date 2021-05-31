@@ -5,14 +5,14 @@
 #include <chrono>
 #include <memory>
 #include <vector>
-#include "cpp-terminal/terminal_renderer.hpp"
+#include "renderer.hpp"
 #include "start_scene.hpp"
 #include "credits_scene.hpp"
 #include "instructions_scene.hpp"
 #include "game_scene.hpp"
 
 class Game {
-    Term::TerminalRenderer rend{true};
+    Renderer rend{true, false};
     std::unique_ptr<Scene> scene;
     state s;
     decltype(std::chrono::system_clock::now()) before, after;

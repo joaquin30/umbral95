@@ -4,7 +4,7 @@
 #include "scene.hpp"
 
 struct GameScene : public Scene {
-    GameScene();
+    GameScene(int, int);
     state manage_events(int, float) override;
 };
 

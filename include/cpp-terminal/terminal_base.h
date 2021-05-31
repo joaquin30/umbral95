@@ -1,5 +1,5 @@
-#ifndef TERMINAL_BASE_HPP
-#define TERMINAL_BASE_HPP
+#ifndef TERMINAL_BASE_H
+#define TERMINAL_BASE_H
 
 /*
  * This file contains all the platform specific code regarding terminal input

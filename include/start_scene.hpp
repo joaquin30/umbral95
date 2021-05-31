@@ -4,7 +4,6 @@
 #include "scene.hpp"
 
 class StartScene : public Scene {
-    const int SCREEN_WIDTH, SCREEN_HEIGHT;
 public:
     StartScene(int, int);
     state manage_events(int, float) override;

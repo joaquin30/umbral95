@@ -2,7 +2,7 @@
 #define SCENE_HPP
 
 #include <algorithm>
-#include "cpp-terminal/terminal_renderer.hpp"
+#include "renderer.hpp"
 
 enum class state {
     start,
@@ -14,10 +14,13 @@ enum class state {
 };
 
 class Scene {
+protected:
+    const int SCREEN_WIDTH, SCREEN_HEIGHT;
+
 public:
-    std::vector<Term::Sprite> sprites;
-    std::vector<Term::Label> labels;
-    Scene() = default;
+    std::vector<Sprite> sprites;
+    std::vector<Label> labels;
+    Scene(int w, int h) : SCREEN_WIDTH{w}, SCREEN_HEIGHT{h} {};
     virtual state manage_events(int, float) = 0;
 };
 

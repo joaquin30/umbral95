@@ -1,10 +1,9 @@
 #include "game.hpp"
 
-Game::Game()
+Game::Game() : SCREEN_WIDTH{rend.get_term_width()},
+               SCREEN_HEIGHT{rend.get_term_height()}
 {
     before = std::chrono::system_clock::now();
-    rend.save_screen();
-    rend.get_term_size(SCREEN_HEIGHT, SCREEN_WIDTH);
     scene = std::make_unique<StartScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
     after = std::chrono::system_clock::now();
     time_elapsed = after - before;
@@ -25,17 +24,18 @@ int Game::loop()
             scene = std::make_unique<StartScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
             break;
 
-        /*case state::credits:
+        case state::credits:
             scene = std::make_unique<CreditsScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
             break;
 
         case state::instructions:
-            scene = std::make_unique<InstructionsScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
+            scene = std::make_unique<InstructionsScene>(SCREEN_WIDTH,
+                                                        SCREEN_HEIGHT);
             break;
 
         case state::game:
             scene = std::make_unique<GameScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
-            break;*/
+            break;
 
         default:
             return 0;
