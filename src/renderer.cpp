@@ -17,8 +17,8 @@ Renderer::~Renderer()
     restore_screen();
 }
 
-int Renderer::get_term_width() {return SCREEN_WIDTH;}
-int Renderer::get_term_height() {return SCREEN_HEIGHT;}
+int Renderer::get_term_width() { return SCREEN_WIDTH; }
+int Renderer::get_term_height() { return SCREEN_HEIGHT; }
 
 void Renderer::draw_pixel(int x, int y, char c)
 {
