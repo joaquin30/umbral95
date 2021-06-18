@@ -187,7 +187,7 @@ class Terminal : public BaseTerminal {
         : BaseTerminal(enable_keyboard, disable_ctrl_c),
           restore_screen_{false} {}
 
-    ~Terminal() override { restore_screen(); }
+    virtual ~Terminal() override { restore_screen(); }
 
     void restore_screen() {
         if (restore_screen_) {

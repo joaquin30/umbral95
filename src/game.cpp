@@ -1,54 +1,43 @@
 #include "game.hpp"
 
-Game::Game() : SCREEN_WIDTH{rend.get_term_width()},
-               SCREEN_HEIGHT{rend.get_term_height()}
-{
-    before = std::chrono::system_clock::now();
-    scene = std::make_unique<StartScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
-    after = std::chrono::system_clock::now();
-    time_elapsed = after - before;
-}
-
 int Game::loop()
 {
-    using namespace std::chrono_literals;
     while (true) {
-        before = std::chrono::system_clock::now();
-        std::this_thread::sleep_for(20ms);
-        s = scene->manage_events(rend.read_key0(), time_elapsed.count());
-        switch (s) {
-        case state::none:
-            break;
+        current = system_clock::now();
+        time_elapsed = current - previous;
+        previous = current;
+        Term::frames += time_elapsed.count();
+        lag += time_elapsed.count();
+        std::this_thread::sleep_for(milliseconds(20));
+        while (lag >= Term::fps) {
+            switch (scene->update(term.read_key0())) {
+            case scene_enum::none:
+                break;
 
-        case state::start:
-            scene = std::make_unique<StartScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
-            break;
+            case scene_enum::start:
+                scene = std::make_unique<Start>();
+                break;
 
-        case state::credits:
-            scene = std::make_unique<CreditsScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
-            break;
+            /*case scene_enum::credits:
+                scene = std::make_unique<Credits>();
+                break;
 
-        case state::instructions:
-            scene = std::make_unique<InstructionsScene>(SCREEN_WIDTH,
-                                                        SCREEN_HEIGHT);
-            break;
+            case scene_enum::instructions:
+                scene = std::make_unique<Instructions>();
+                break;*/
 
-        case state::game:
-            scene = std::make_unique<GameScene>(SCREEN_WIDTH, SCREEN_HEIGHT);
-            break;
+            case scene_enum::game:
+                scene = std::make_unique<Level1>();
+                break;
 
-        default:
-            return 0;
+            default:
+                return 0;
+            }
+
+            lag -= Term::fps;
         }
 
-        for (auto &i : scene->sprites)
-            rend.draw_sprite(i);
-
-        for (auto &i : scene->labels)
-            rend.draw_label(i);
-
-        rend.render();
-        after = std::chrono::system_clock::now();
-        time_elapsed = after - before;
+        scene->draw(term);
+        term.render();
     }
 }

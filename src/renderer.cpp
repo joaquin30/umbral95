@@ -1,12 +1,17 @@
 #include "renderer.hpp"
 
-Renderer::Renderer(bool enable_keyboard, bool disable_ctrl_c) :
-    Term::Terminal(enable_keyboard, disable_ctrl_c)
+namespace Term {
+
+float frames = 0.f;
+int WIDTH = 0, HEIGHT = 0;
+
+Renderer::Renderer(bool enable_keyboard, bool disable_ctrl_c)
+: Term::Terminal(enable_keyboard, disable_ctrl_c)
 {
-    std::ios::sync_with_stdio(false);
     save_screen();
-    get_term_size(SCREEN_HEIGHT, SCREEN_WIDTH);
-    buffer[0] = buffer[1] = std::string(SCREEN_WIDTH * SCREEN_HEIGHT, ' ');
+    get_term_size(HEIGHT, WIDTH);
+    buffer[current] = buffer[next] = std::string(WIDTH * HEIGHT, ' ');
+    std::ios::sync_with_stdio(false);
     std::cout << Term::cursor_off();
 }
 
@@ -14,23 +19,18 @@ Renderer::~Renderer()
 {
     std::cout << Term::cursor_on();
     std::ios::sync_with_stdio(true);
-    restore_screen();
 }
-
-int Renderer::get_term_width() { return SCREEN_WIDTH; }
-int Renderer::get_term_height() { return SCREEN_HEIGHT; }
 
 void Renderer::draw_pixel(int x, int y, char c)
 {
-    if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
-        buffer[1][y * SCREEN_WIDTH + x] = c;
+    if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+        buffer[next][y * WIDTH + x] = c;
 }
 
-
-void Renderer::draw_line(point p1, point p2, char c)
+void Renderer::draw_line(float2 p1, float2 p2, char c)
 {
-    int x1 = std::lroundf(p1.first), x2 = std::lroundf(p2.first);
-    int y1 = std::lroundf(p1.second), y2 = std::lroundf(p2.second);
+    int x1 = p1.x, x2 = p2.x;
+    int y1 = p1.y, y2 = p2.y;
     int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
     dx = x2 - x1;
     dy = y2 - y1;
@@ -95,57 +95,25 @@ void Renderer::draw_line(point p1, point p2, char c)
     }
 }
 
-void Renderer::draw_poligon(const std::vector<point> &points, char c)
+void Renderer::draw_poligon(const std::vector<float2> &points, char c)
 {
     for (int i = 0, len = points.size(); i < len; i++)
         draw_line(points[i], points[(i+1 == len ? 0 : i+1)], c);
 }
 
-void Renderer::draw_sprite(const Sprite &sprite)
-{
-    int len = sprite.points.size();
-    std::vector<point> pnts(len);
-    float seno = sinf(sprite.angle), coseno = cosf(sprite.angle);
-    for (int i = 0; i < len; ++i) {
-        pnts[i].first = sprite.points[i].first * coseno -
-                        sprite.points[i].second * seno;
-        pnts[i].second = sprite.points[i].first * seno +
-                            sprite.points[i].second * coseno;
-    }
-
-    for (auto& [x, y] : pnts) {
-        x += sprite.x;
-        y += sprite.y;
-    }
-
-    draw_poligon(pnts, sprite.c);
-}
-
-void Renderer::draw_label(const Label &label)
-{
-    int x = label.x, y = label.y;
-    for (auto i : label.str) {
-        if (i == '\n') {
-            x = label.x;
-            y++;
-        } else {
-            draw_pixel(x, y, i);
-            x++;
-        }
-    }
-}
-
 void Renderer::render()
 {
-    for (int i = 0; i < SCREEN_HEIGHT; ++i) {
-        for (int j = 0; j < SCREEN_WIDTH; ++j) {
-            auto pos = i * SCREEN_WIDTH + j;
-            if (buffer[0][pos] != buffer[1][pos])
-                std::cout << Term::move_cursor(i+1, j+1) << buffer[1][pos];
+    for (int i = 0; i < HEIGHT; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            int pos = i * WIDTH + j;
+            if (buffer[current][pos] != buffer[next][pos])
+                std::cout << Term::move_cursor(i+1, j+1) << buffer[next][pos];
         }
     }
 
-    buffer[0] = buffer[1];
-    std::fill(buffer[1].begin(), buffer[1].end(), ' ');
+    std::swap(current, next);
+    std::fill(buffer[next].begin(), buffer[next].end(), ' ');
     std::cout << std::flush;
 }
+
+} //namespace Term

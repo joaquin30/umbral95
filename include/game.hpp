@@ -6,21 +6,22 @@
 #include <memory>
 #include <vector>
 #include "renderer.hpp"
-#include "start_scene.hpp"
-#include "credits_scene.hpp"
-#include "instructions_scene.hpp"
-#include "game_scene.hpp"
+#include "scenes/start.hpp"
+#include "scenes/credits.hpp"
+#include "scenes/instructions.hpp"
+#include "scenes/level1.hpp"
+
+using namespace std::chrono;
 
 class Game {
-    Renderer rend{true, false};
-    std::unique_ptr<Scene> scene;
-    state s;
-    decltype(std::chrono::system_clock::now()) before, after;
-    std::chrono::duration<float> time_elapsed;
-    int SCREEN_WIDTH, SCREEN_HEIGHT;
+    Term::Renderer term{true, false};
+    std::unique_ptr<Scene> scene = std::make_unique<Start>();
+    decltype(system_clock::now()) previous = system_clock::now();
+    decltype(system_clock::now()) current;
+    duration<float> time_elapsed;
+    float lag = 0;
 
 public:
-    Game();
     int loop();
 };
 

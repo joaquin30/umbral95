@@ -4,39 +4,31 @@
 #include <cmath>
 #include <utility>
 #include <iostream>
+#include <string_view>
 #include <cpp-terminal/terminal.h>
+#include <linalg/linalg.h>
 
-using point = std::pair<float, float>;
+using namespace linalg::aliases;
 
-struct Sprite {
-    float x, y;
-    float dx, dy;
-    float angle;
-    char c;
-    std::vector<point> points;
-};
+namespace Term {
 
-struct Label {
-    float x, y;
-    float dx, dy;
-    std::string str;
-};
+inline constexpr float fps = 1.f/30.f; //~30fps
+extern float frames;
+extern int WIDTH, HEIGHT;
 
-class Renderer : public Term::Terminal {
+class Renderer : public Terminal {
     std::string buffer[2];
-    int SCREEN_WIDTH, SCREEN_HEIGHT;
+    int current = 0, next = 1;
 
 public:
     explicit Renderer(bool = false, bool = true);
     ~Renderer() override;
-    int get_term_width();
-    int get_term_height();
     void draw_pixel(int, int, char = '#');
-    void draw_line(point, point, char = '#');
-    void draw_poligon(const std::vector<point>&, char = '#');
-    void draw_sprite(const Sprite&);
-    void draw_label(const Label&);
+    void draw_line(float2, float2, char = '#');
+    void draw_poligon(const std::vector<float2>&, char = '#');
     void render();
 };
+
+} //namespace Term
 
 #endif //RENDERER_HPP

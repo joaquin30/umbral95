@@ -1,8 +1,8 @@
-#include "start_scene.hpp"
+#include "scenes/start.hpp"
 
-StartScene::StartScene(int w, int h) : Scene{w, h}
+Start::Start()
 {
-    auto title = R"(___________.__                 ___.                .__
+    auto s = R"(___________.__                 ___.                .__
 \_   _____/|  |    __ __  _____\_ |______________  |  |
  |    __)_ |  |   |  |  \/     \| __ \_  __ \__  \ |  |
  |        \|  |__ |  |  /  Y Y  \ \_\ \  | \// __ \|  |__
@@ -21,30 +21,33 @@ StartScene::StartScene(int w, int h) : Scene{w, h}
                   PRESIONA ESC PARA SALIR
 
               PRESIONA C PARA VER LOS CREDITOS)";
-    labels.push_back(Label{(float)(SCREEN_WIDTH - 57) / 2,
-                           (float)(SCREEN_HEIGHT - 19) / 2,
-                           0, 0, title});
+    title.set_str(s);
 }
 
-state StartScene::manage_events(int key, float)
+scene_enum Start::update(int key)
 {
     switch (key) {
     case 0:
         break;
 
     case Term::Key::ENTER:
-        return state::game;
+        return scene_enum::game; //scene_enum::instructions;
 
     case Term::Key::ESC:
-        return state::exit;
+        return scene_enum::exit;
 
     case 'c':
     case 'C':
-        return state::none;
+        return scene_enum::game; //scene_enum::credits;
 
     default:
         break;
     }
 
-    return state::none;
+    return scene_enum::none;
+}
+
+void Start::draw(Term::Renderer &rend)
+{
+    title.draw(rend);
 }

@@ -4,7 +4,7 @@ SRCS = $(shell find src -name *.cpp)
 OBJS = $(SRCS:%=build/%.o)
 DEPS = $(OBJS:.o=.d)
 CFLAGS = -Iinclude -MMD -MP -O3 -std=c++17 -Wall -Wextra -pedantic
-LIBS = -lm
+LIBS =
 
 .PHONY: clean all run
 
