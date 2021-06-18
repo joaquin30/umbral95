@@ -1,4 +1,4 @@
-#include "scenes/credits_scene.hpp"
+#include "scenes/credits.hpp"
 /*
 CreditsScene::CreditsScene(int w, int h) : Scene{w, h}
 {
