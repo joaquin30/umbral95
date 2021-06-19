@@ -7,7 +7,7 @@ enum class state {
     start,
     credits,
     instructions,
-    game,
+    level1,
     gameover,
     none, //para quedarse en la escena y no hacer nada
     exit //para salir del juego
@@ -15,7 +15,7 @@ enum class state {
 
 class Scene {
 public:
-    float time_elapsed = 0;
+    float TIME_ELAPSED = 0;
     virtual ~Scene() {}
     virtual state update(int key) = 0;
     virtual void draw(Term::Renderer& r) = 0;

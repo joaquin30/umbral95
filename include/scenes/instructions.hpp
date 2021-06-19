@@ -1,11 +1,17 @@
-#ifndef INSTRUCTIONS_SCENE_HPP
-#define INSTRUCTIONS_SCENE_HPP
+#ifndef INSTRUCTIONS_HPP
+#define INSTRUCTIONS_HPP
 
 #include "scene.hpp"
-/*
-struct InstructionsScene : public Scene {
-    InstructionsScene(int, int);
-    state manage_events(int, float) override;
-};*/
+#include "entities/label.hpp"
 
-#endif //INSTRUCTIONS_SCENE_HPP
+class Instructions : public Scene {
+    Label text {{(Term::WIDTH - 67) / 2.f,
+                 (Term::HEIGHT - 21) / 2.f}};
+
+public:
+    Instructions();
+    state update(int) override;
+    void draw(Term::Renderer&) override;
+};
+
+#endif

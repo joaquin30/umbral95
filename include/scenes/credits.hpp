@@ -1,11 +1,17 @@
-#ifndef CREDITS_SCENE_HPP
-#define CREDITS_SCENE_HPP
+#ifndef CREDITS_HPP
+#define CREDITS_HPP
 
 #include "scene.hpp"
-/*
-struct CreditsScene : public Scene {
-    CreditsScene(int, int);
-    state manage_events(int, float) override;
-};*/
+#include "entities/label.hpp"
 
-#endif //CREDITS_SCENE_HPP
+class Credits : public Scene {
+    Label text {{(Term::WIDTH - 41) / 2.f,
+                 (Term::HEIGHT - 25) / 2.f}};
+
+public:
+    Credits();
+    state update(int) override;
+    void draw(Term::Renderer& rend);
+};
+
+#endif

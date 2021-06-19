@@ -8,8 +8,7 @@ class Label : public Entity {
     std::string str;
 
 public:
-    Label(float2);
-    Label(float2, const std::string&);
+    Label(float2, const std::string& = "");
     void set_str(const std::string&);
     void draw(Term::Renderer& rend) override;
 };

@@ -16,9 +16,11 @@ Start::Start()
            \/    \/                      \/ \/
 
 
-                PRESIONA ENTER PARA EMPEZAR
+                 PRESIONA ENTER PARA JUGAR
 
                   PRESIONA ESC PARA SALIR
+
+            PRESIONA I PARA VER LAS INSTRUCCIONES
 
               PRESIONA C PARA VER LOS CREDITOS)";
     title.set_str(s);
@@ -31,14 +33,18 @@ state Start::update(int key)
         break;
 
     case Term::Key::ENTER:
-        return state::game; //state::instructions;
+        return state::level1;
 
     case Term::Key::ESC:
         return state::exit;
 
+    case 'i':
+    case 'I':
+        return state::instructions;
+
     case 'c':
     case 'C':
-        return state::game; //state::credits;
+        return state::credits;
 
     default:
         break;
@@ -47,7 +53,4 @@ state Start::update(int key)
     return state::none;
 }
 
-void Start::draw(Term::Renderer &rend)
-{
-    title.draw(rend);
-}
+void Start::draw(Term::Renderer &rend) { title.draw(rend); }

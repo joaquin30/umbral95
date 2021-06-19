@@ -2,6 +2,17 @@
 
 Level1::Level1() {}
 
+int Level1::random_range(int a, int b) { return a + (int) rnd() % (b+1); }
+
+int Level1::random_range(int n) { return random_range(0, n); }
+
+bool Level1::implosion(int n) { return random_range(99) > n; }
+
+bool Level1::collision(Entity& e1, Entity& e2)
+{
+    return linalg::distance(e1.get_pos(), e2.get_pos()) < 3.5f;
+}
+
 state Level1::update(int key)
 {
     switch (key) {
@@ -27,56 +38,72 @@ state Level1::update(int key)
     case 'x':
     case 'X':
         bullets.push_back(player.shoot());
-        break;
+        probability--;
+        if (implosion(probability))
+            return state::gameover;
 
-    case Term::ESC:
-        return state::exit;
+        break;
 
     default:
         break;
     }
 
-    auto it = std::remove_if(bullets.begin(), bullets.end(),
-              [] (Bullet& b) { return !b.in_screen(); });
-    bullets.erase(it, bullets.end());
-
-    if (time_elapsed > 5) {
-        //orbs.push_back(Orb{{(float)(rnd() % Term::WIDTH),
-        //                    (float)(rnd() % Term::HEIGHT)}});
-        enemies.push_back(Enemy{{(float)(rnd() % 2 ? 0 : Term::WIDTH),
-                                 (float)(rnd() % Term::HEIGHT)}});
-        time_elapsed = 0;
-    }
-
-    for (auto& i : enemies)
-        i.follow(player.get_pos());
-
-    lbl.set_str(std::to_string(bullets.size()));
-
-    /*
-    //futuro sistema de colision (da error)
-
+    //colision y seguimento de jugador y enemigos
     for (auto& e : enemies) {
-        it = std::remove_if(bullets.begin(), bullets.end(),
-        [&] (Bullet& b) {
-            return abs(b.pos.x - e.pos.x) < 2 && abs(b.pos.y - e.pos.y) < 2;
-        });
+        if (collision(player, e))
+            return state::gameover;
+
+        e.follow(player.get_pos());
     }
 
+    lbl.set_str(std::to_string(probability) + "%");
+
+    //generacion de enemigos
+    if ((int) TIME_ELAPSED % 4) {
+        if (new_enemy) {
+            enemies.push_back(
+                Enemy{{(float) (random_range(1) ? 0 : Term::WIDTH),
+                       (float) random_range(Term::HEIGHT)}}
+            );
+            new_enemy = false;
+        }
+    } else {
+        new_enemy = true;
+    }
+
+    //colision de orbe y jugador
+    if (collision(orb, player)) {
+        orb = Orb{{(float) random_range(20, Term::WIDTH - 20),
+                   (float) random_range(5, Term::HEIGHT - 5)}};
+        probability = 100;
+    }
+
+    //colision de balas y enemigos
+    decltype(bullets.begin()) it1;
     decltype(enemies.begin()) it2;
 
-    for (auto& b : bullets) {
-        it2 = std::remove_if(enemies.begin(), enemies.end(),
-        [&] (Enemy& e) {
-            return abs(b.pos.x - e.pos.x) < 2 && abs(b.pos.y - e.pos.y) < 2;
+    it1 = std::remove_if(bullets.begin(), bullets.end(),
+        [&] (Bullet& b) {
+            for (auto& e : enemies) {
+                if (collision(e, b))
+                    return true;
+            }
+
+            return !b.in_screen();
         });
-    }
 
-    if (it != bullets.end())
-        bullets.erase(it, bullets.end());
+    it2 = std::remove_if(enemies.begin(), enemies.end(),
+    [&] (Enemy& e) {
+        for (auto& b : bullets) {
+            if (collision(e, b))
+                return true;
+        }
 
-    if (it2 != enemies.end())
-        enemies.erase(it2, enemies.end());*/
+        return false;
+    });
+
+    bullets.erase(it1, bullets.end());
+    enemies.erase(it2, enemies.end());
     return state::none;
 }
 
@@ -88,9 +115,7 @@ void Level1::draw(Term::Renderer& rend)
     for (auto& i : enemies)
         i.draw(rend);
 
-    for (auto& i : orbs)
-        i.draw(rend);
-
+    orb.draw(rend);
     player.draw(rend);
     lbl.draw(rend);
 }

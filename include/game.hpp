@@ -4,12 +4,11 @@
 #include <thread>
 #include <chrono>
 #include <memory>
-#include <vector>
-#include "renderer.hpp"
 #include "scenes/start.hpp"
 #include "scenes/credits.hpp"
 #include "scenes/instructions.hpp"
 #include "scenes/level1.hpp"
+#include "scenes/gameover.hpp"
 
 using namespace std::chrono;
 

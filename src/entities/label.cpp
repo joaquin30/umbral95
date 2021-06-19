@@ -1,7 +1,5 @@
 #include "entities/label.hpp"
 
-Label::Label(float2 p) : Entity{p} {}
-
 Label::Label(float2 p, const std::string& s) : Entity{p}, str{s} {}
 
 void Label::set_str(const std::string& s) {str = s;}

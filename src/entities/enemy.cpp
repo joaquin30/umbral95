@@ -5,7 +5,7 @@ Enemy::Enemy(float2 p) : Sprite{p}
     e_vel = 4;
     angle = 0;
     ang_vel = 5;
-    points = {{-2, -2}, {-2, 2}, {3, 0}};
+    points = {{-1, -1}, {-1, 1}, {2, 0}};
 }
 
 void Enemy::follow(float2 p)

@@ -17,24 +17,28 @@ int Game::loop()
                 scene = std::make_unique<Start>();
                 break;
 
-            /*case state::credits:
+            case state::credits:
                 scene = std::make_unique<Credits>();
                 break;
 
             case state::instructions:
                 scene = std::make_unique<Instructions>();
-                break;*/
+                break;
 
-            case state::game:
+            case state::level1:
                 scene = std::make_unique<Level1>();
                 break;
 
-            default:
+            case state::gameover:
+                scene = std::make_unique<GameOver>();
+                break;
+
+            case state::exit:
                 return 0;
             }
 
             lag -= Term::FPS;
-            scene->time_elapsed += Term::FPS;
+            scene->TIME_ELAPSED += Term::FPS;
         }
 
         scene->draw(term);
