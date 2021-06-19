@@ -10,7 +10,7 @@ class Start : public Scene {
 
 public:
     Start();
-    scene_enum update(int) override;
+    state update(int) override;
     void draw(Term::Renderer&) override;
 };
 

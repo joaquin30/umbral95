@@ -1,6 +1,12 @@
 #include "entities/enemy.hpp"
 
-Enemy::Enemy(float2 p) : Entity{p} {}
+Enemy::Enemy(float2 p) : Sprite{p}
+{
+    e_vel = 4;
+    angle = 0;
+    ang_vel = 5;
+    points = {{-2, -2}, {-2, 2}, {3, 0}};
+}
 
 void Enemy::follow(float2 p)
 {
@@ -13,21 +19,7 @@ void Enemy::follow(float2 p)
     else
         angle = acosf(x / sqrtf(x*x + y*y));
 
-    vel.y = e_vel * sinf(angle);
     vel.x = e_vel * cosf(angle);
-    pos += vel * Term::fps;
-}
-
-void Enemy::draw(Term::Renderer& rend)
-{
-    auto pnts = points;
-    float2x2 m_rot {{cosf(angle), sinf(angle)},
-                    {-sinf(angle), cosf(angle)}};
-    for (int i = 0; i < 3; ++i)
-        pnts[i] = linalg::mul(m_rot, points[i]);
-
-    for (auto& i : pnts)
-        i += pos;
-
-    rend.draw_poligon(pnts, '$');
+    vel.y = e_vel * sinf(angle);
+    move_forward();
 }

@@ -11,5 +11,5 @@ bool Bullet::in_screen()
 void Bullet::draw(Term::Renderer& rend)
 {
     rend.draw_pixel(pos.x, pos.y, 'o');
-    pos += vel * Term::fps;
+    pos += vel * Term::FPS;
 }

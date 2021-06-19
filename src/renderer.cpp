@@ -2,8 +2,8 @@
 
 namespace Term {
 
-float frames = 0.f;
-int WIDTH = 0, HEIGHT = 0;
+const float FPS = 1.f/30.f; //~30 fps
+int WIDTH, HEIGHT;
 
 Renderer::Renderer(bool enable_keyboard, bool disable_ctrl_c)
 : Term::Terminal(enable_keyboard, disable_ctrl_c)

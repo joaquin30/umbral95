@@ -20,7 +20,7 @@ class Level1 : public Scene {
 
 public:
     Level1();
-    scene_enum update(int) override;
+    state update(int) override;
     void draw(Term::Renderer&) override;
 };
 

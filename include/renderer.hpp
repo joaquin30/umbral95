@@ -12,8 +12,7 @@ using namespace linalg::aliases;
 
 namespace Term {
 
-inline constexpr float fps = 1.f/30.f; //~30fps
-extern float frames;
+extern const float FPS;
 extern int WIDTH, HEIGHT;
 
 class Renderer : public Terminal {

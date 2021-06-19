@@ -3,7 +3,7 @@
 
 #include "renderer.hpp"
 
-enum class scene_enum {
+enum class state {
     start,
     credits,
     instructions,
@@ -15,8 +15,9 @@ enum class scene_enum {
 
 class Scene {
 public:
+    float time_elapsed = 0;
     virtual ~Scene() {}
-    virtual scene_enum update(int key) = 0;
+    virtual state update(int key) = 0;
     virtual void draw(Term::Renderer& r) = 0;
 };
 

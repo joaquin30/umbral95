@@ -2,7 +2,7 @@
 
 Level1::Level1() {}
 
-scene_enum Level1::update(int key)
+state Level1::update(int key)
 {
     switch (key) {
     case 0:
@@ -30,7 +30,7 @@ scene_enum Level1::update(int key)
         break;
 
     case Term::ESC:
-        return scene_enum::exit;
+        return state::exit;
 
     default:
         break;
@@ -40,12 +40,12 @@ scene_enum Level1::update(int key)
               [] (Bullet& b) { return !b.in_screen(); });
     bullets.erase(it, bullets.end());
 
-    if (Term::frames > 5) {
+    if (time_elapsed > 5) {
         //orbs.push_back(Orb{{(float)(rnd() % Term::WIDTH),
         //                    (float)(rnd() % Term::HEIGHT)}});
         enemies.push_back(Enemy{{(float)(rnd() % 2 ? 0 : Term::WIDTH),
                                  (float)(rnd() % Term::HEIGHT)}});
-        Term::frames = 0;
+        time_elapsed = 0;
     }
 
     for (auto& i : enemies)
@@ -77,7 +77,7 @@ scene_enum Level1::update(int key)
 
     if (it2 != enemies.end())
         enemies.erase(it2, enemies.end());*/
-    return scene_enum::none;
+    return state::none;
 }
 
 void Level1::draw(Term::Renderer& rend)

@@ -24,27 +24,27 @@ Start::Start()
     title.set_str(s);
 }
 
-scene_enum Start::update(int key)
+state Start::update(int key)
 {
     switch (key) {
     case 0:
         break;
 
     case Term::Key::ENTER:
-        return scene_enum::game; //scene_enum::instructions;
+        return state::game; //state::instructions;
 
     case Term::Key::ESC:
-        return scene_enum::exit;
+        return state::exit;
 
     case 'c':
     case 'C':
-        return scene_enum::game; //scene_enum::credits;
+        return state::game; //state::credits;
 
     default:
         break;
     }
 
-    return scene_enum::none;
+    return state::none;
 }
 
 void Start::draw(Term::Renderer &rend)
