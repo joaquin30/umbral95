@@ -6,7 +6,7 @@
 
 class Instructions : public Scene {
     Label text {{(Term::WIDTH - 67) / 2.f,
-                 (Term::HEIGHT - 21) / 2.f}};
+                 (Term::HEIGHT - 23) / 2.f}};
 
 public:
     Instructions();

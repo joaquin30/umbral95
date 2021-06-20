@@ -9,6 +9,7 @@
 #include "scenes/instructions.hpp"
 #include "scenes/level1.hpp"
 #include "scenes/gameover.hpp"
+#include "scenes/win.hpp"
 
 using namespace std::chrono;
 

@@ -33,12 +33,16 @@ int Game::loop()
                 scene = std::make_unique<GameOver>();
                 break;
 
+            case state::win:
+                scene = std::make_unique<Win>();
+                break;
+
             case state::exit:
                 return 0;
             }
 
             lag -= Term::FPS;
-            scene->TIME_ELAPSED += Term::FPS;
+            scene->time_elapsed += Term::FPS;
         }
 
         scene->draw(term);

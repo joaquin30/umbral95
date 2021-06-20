@@ -2,6 +2,12 @@
 
 Orb::Orb(float2 p) : Entity{p} {}
 
+void Orb::set_pos(float x, float y)
+{
+    pos.x = x;
+    pos.y = y;
+}
+
 void Orb::draw(Term::Renderer& rend)
 {
     int x = pos.x, y = pos.y;

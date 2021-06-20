@@ -6,6 +6,7 @@
 class Orb : public Entity {
 public:
     Orb(float2);
+    void set_pos(float, float);
     void draw(Term::Renderer&) override;
 };
 

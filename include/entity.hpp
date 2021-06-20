@@ -4,13 +4,10 @@
 #include "renderer.hpp"
 
 class Entity {
-protected:
-    float2 pos;
-
 public:
+    float2 pos;
     Entity(float2 p) : pos{p} {}
     virtual ~Entity() {}
-    float2 get_pos() { return pos; }
     virtual void draw(Term::Renderer&) = 0;
 };
 

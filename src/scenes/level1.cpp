@@ -2,15 +2,18 @@
 
 Level1::Level1() {}
 
-int Level1::random_range(int a, int b) { return a + (int) rnd() % (b+1); }
+unsigned Level1::randrange(unsigned a, unsigned b)
+{
+    return a + (rnd() % (b-a+1));
+}
 
-int Level1::random_range(int n) { return random_range(0, n); }
+unsigned Level1::randrange(unsigned n) { return randrange(0, n); }
 
-bool Level1::implosion(int n) { return random_range(99) > n; }
+bool Level1::implosion(unsigned n) { return randrange(99) > n; }
 
 bool Level1::collision(Entity& e1, Entity& e2)
 {
-    return linalg::distance(e1.get_pos(), e2.get_pos()) < 3.5f;
+    return linalg::distance(e1.pos, e2.pos) < 3.5f;
 }
 
 state Level1::update(int key)
@@ -53,17 +56,18 @@ state Level1::update(int key)
         if (collision(player, e))
             return state::gameover;
 
-        e.follow(player.get_pos());
+        e.follow(player.pos);
     }
 
     lbl.set_str(std::to_string(probability) + "%");
+    pnts.set_str("Puntos: " + std::to_string(points));
 
     //generacion de enemigos
-    if ((int) TIME_ELAPSED % 4) {
+    if ((int) time_elapsed % 4) {
         if (new_enemy) {
-            enemies.push_back(
-                Enemy{{(float) (random_range(1) ? 0 : Term::WIDTH),
-                       (float) random_range(Term::HEIGHT)}}
+            enemies.emplace_back(
+                float2{(float) (randrange(1) ? 0 : Term::WIDTH),
+                       (float) randrange(Term::HEIGHT)}
             );
             new_enemy = false;
         }
@@ -73,9 +77,12 @@ state Level1::update(int key)
 
     //colision de orbe y jugador
     if (collision(orb, player)) {
-        orb = Orb{{(float) random_range(20, Term::WIDTH - 20),
-                   (float) random_range(5, Term::HEIGHT - 5)}};
+        orb.pos = float2{(float) randrange(20, Term::WIDTH - 20),
+                         (float) randrange(5, Term::HEIGHT - 5)};
         probability = 100;
+        points++;
+        if(points == 10)
+            return state::win;
     }
 
     //colision de balas y enemigos
@@ -118,4 +125,5 @@ void Level1::draw(Term::Renderer& rend)
     orb.draw(rend);
     player.draw(rend);
     lbl.draw(rend);
+    pnts.draw(rend);
 }

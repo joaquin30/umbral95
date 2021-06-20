@@ -13,13 +13,15 @@ Instructions::Instructions()
 
 - Usa X para disparar.
 
-- El numero de abajo es la probabilidad de disparar hacia adelante,
-  esta se reduce con cada disparo.
+- El numero de abajo es la probabilidad de no explotar, esta se
+  reduce con cada disparo.
 
-- Si disparas hacia atras o te toca una nave enemiga, pierdes.
+- Si explotas o te toca una nave enemiga, pierdes.
 
 - Para restaurar la probabilidad al 100%, coge los diamantes que
-  saldran en el mapa
+  saldran en el mapa. Ademas, te daran 1 punto.
+
+- Consigue 10 puntos para ganar.
 
 
             PRESIONA ESC PARA VOLVER AL MENU PRINCIPAL)";
